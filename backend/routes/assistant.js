@@ -5,12 +5,6 @@ const { authenticate } = require('../middleware/auth');
 
 const router = express.Router();
 router.use(authenticate);
-
-// ---------------------------------------------------------------------------
-// Built-in rule-based assistant. Works with zero configuration and zero cost.
-// It answers common hospital FAQs and does very basic symptom triage —
-// it always tells the user it is not a substitute for a real doctor.
-// ---------------------------------------------------------------------------
 const FAQ_RULES = [
   {
     match: /book|schedule|appointment/i,
@@ -75,12 +69,6 @@ function ruleBasedReply(message) {
     'Could you tell me a bit more about what you need, or describe your main symptom?'
   );
 }
-
-// ---------------------------------------------------------------------------
-// Optional upgrade: if ANTHROPIC_API_KEY is set in the environment, route
-// messages through Claude for richer, more natural conversations instead of
-// the rule-based engine above. Falls back to rules on any error.
-// ---------------------------------------------------------------------------
 async function claudeReply(message, history) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) return null;
@@ -122,7 +110,7 @@ router.post('/chat', async (req, res) => {
   try {
     reply = await claudeReply(message, history);
   } catch (err) {
-    reply = null; // fall through to rule-based
+    reply = null;
   }
   if (!reply) reply = ruleBasedReply(message);
 
