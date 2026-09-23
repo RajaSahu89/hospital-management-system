@@ -1,5 +1,3 @@
-// Seeds the database with a demo admin, doctors, and a patient so the
-// app is usable immediately after setup.
 const bcrypt = require('bcryptjs');
 const { v4: uuidv4 } = require('uuid');
 const db = require('./database');
