@@ -3,6 +3,8 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 
+require('./db/seed'); // auto-seed demo data on startup
+
 const authRoutes = require('./routes/auth');
 const patientRoutes = require('./routes/patients');
 const doctorRoutes = require('./routes/doctors');
@@ -33,8 +35,6 @@ app.use('/api/assistant', assistantRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/users', userRoutes);
 
-// Centralized error handler (routes still use their own try/catch-free
-// synchronous style since better-sqlite3 is synchronous; this is a safety net)
 app.use((err, req, res, next) => {
   console.error(err);
   res.status(500).json({ error: 'Something went wrong on the server.' });
