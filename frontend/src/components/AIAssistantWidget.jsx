@@ -32,7 +32,7 @@ export default function AIAssistantWidget({ open, onClose }) {
 
     try {
       const history = nextMessages
-        .slice(1) // drop the canned greeting
+        .slice(1)
         .slice(-8)
         .map((m) => ({ role: m.role === 'assistant' ? 'assistant' : 'user', content: m.content }));
 
