@@ -23,8 +23,6 @@ function currentDoctorId(userId) {
   const d = db.prepare('SELECT id FROM doctors WHERE user_id = ?').get(userId);
   return d ? d.id : null;
 }
-
-// Role-scoped listing: admin/receptionist see all, doctors see their own, patients see their own
 router.get('/', (req, res) => {
   const { role, id } = req.user;
   let rows;
@@ -40,7 +38,6 @@ router.get('/', (req, res) => {
   res.json({ appointments: rows });
 });
 
-// Patients book for themselves; admin/receptionist can book on behalf of any patient
 router.post('/', (req, res) => {
   const { role, id } = req.user;
   let { patient_id, doctor_id, appointment_date, appointment_time, reason } = req.body;
