@@ -21,8 +21,6 @@ function currentDoctorId(userId) {
   const d = db.prepare('SELECT id FROM doctors WHERE user_id = ?').get(userId);
   return d ? d.id : null;
 }
-
-// Medical records are sensitive: patients see only their own, doctors/admin see all
 router.get('/', (req, res) => {
   const { role, id } = req.user;
   let rows;
