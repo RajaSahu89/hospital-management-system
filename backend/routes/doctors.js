@@ -10,8 +10,6 @@ const DOCTOR_VIEW = `
   SELECT d.*, u.name, u.email, u.phone
   FROM doctors d JOIN users u ON u.id = d.user_id
 `;
-
-// Public: anyone (including the landing page, pre-login) can browse doctors
 router.get('/', (req, res) => {
   const rows = db.prepare(`${DOCTOR_VIEW} ORDER BY u.name`).all();
   res.json({ doctors: rows });
@@ -30,8 +28,6 @@ router.get('/profile/me', authorize('doctor'), (req, res) => {
   if (!row) return res.status(404).json({ error: 'Doctor profile not found.' });
   res.json({ doctor: row });
 });
-
-// Admin creates a new doctor account (user + doctor profile together)
 router.post('/', authorize('admin'), (req, res) => {
   const {
     name, email, password, phone,
@@ -99,7 +95,7 @@ router.put('/:id', authorize('admin', 'doctor'), (req, res) => {
 router.delete('/:id', authorize('admin'), (req, res) => {
   const doctor = db.prepare('SELECT * FROM doctors WHERE id = ?').get(req.params.id);
   if (!doctor) return res.status(404).json({ error: 'Doctor not found.' });
-  db.prepare('DELETE FROM users WHERE id = ?').run(doctor.user_id); // cascades to doctors row
+  db.prepare('DELETE FROM users WHERE id = ?').run(doctor.user_id);
   res.json({ success: true });
 });
 
