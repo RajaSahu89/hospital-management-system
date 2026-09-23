@@ -11,9 +11,6 @@ router.get('/', (req, res) => {
   const rows = db.prepare('SELECT id, name, email, role, phone, created_at FROM users ORDER BY created_at DESC').all();
   res.json({ users: rows });
 });
-
-// Create staff accounts: admin or receptionist (doctors are created via POST /api/doctors
-// since that also builds their doctor profile in one step)
 router.post('/', (req, res) => {
   const { name, email, password, role, phone } = req.body;
   const allowedRoles = ['admin', 'receptionist'];
