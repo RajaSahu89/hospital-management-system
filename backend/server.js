@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 
-require('./db/seed'); // auto-seed demo data on startup
+require('./db/seed');
 
 const authRoutes = require('./routes/auth');
 const patientRoutes = require('./routes/patients');
