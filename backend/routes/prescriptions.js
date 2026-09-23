@@ -36,8 +36,6 @@ router.get('/', (req, res) => {
   }
   res.json({ prescriptions: rows });
 });
-
-// Only doctors write prescriptions. medicines: [{ name, dosage, frequency, duration }]
 router.post('/', authorize('doctor'), (req, res) => {
   const { patient_id, appointment_id, medicines, instructions } = req.body;
   const doctor_id = currentDoctorId(req.user.id);
