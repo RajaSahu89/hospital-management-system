@@ -52,8 +52,6 @@ router.get('/stats', (req, res) => {
     const totalPatients = db.prepare('SELECT COUNT(*) c FROM patients').get().c;
     return res.json({ todayAppts, pendingAppts, unpaidBills, totalPatients });
   }
-
-  // patient
   const patientId = currentPatientId(id);
   const upcomingAppts = db.prepare(
     `SELECT COUNT(*) c FROM appointments WHERE patient_id = ? AND appointment_date >= date('now') AND status != 'cancelled'`
