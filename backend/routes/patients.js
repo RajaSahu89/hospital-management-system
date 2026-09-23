@@ -9,8 +9,6 @@ const PATIENT_VIEW = `
   SELECT p.*, u.name, u.email, u.phone
   FROM patients p JOIN users u ON u.id = p.user_id
 `;
-
-// Staff can list all patients; a patient can only ever resolve their own record via /me
 router.get('/', authorize('admin', 'doctor', 'receptionist'), (req, res) => {
   const rows = db.prepare(`${PATIENT_VIEW} ORDER BY u.name`).all();
   res.json({ patients: rows });
