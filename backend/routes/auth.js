@@ -19,9 +19,6 @@ function sanitizeUser(user) {
   const { password, ...rest } = user;
   return rest;
 }
-
-// Patients self-register; staff accounts (admin/doctor/receptionist) are
-// created by an admin via /api/users (see users.js).
 router.post('/register', (req, res) => {
   const { name, email, password, phone, date_of_birth, gender, blood_group, address } = req.body;
 
